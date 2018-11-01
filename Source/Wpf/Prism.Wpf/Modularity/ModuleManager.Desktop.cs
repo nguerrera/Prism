@@ -18,20 +18,20 @@ namespace Prism.Modularity
         {
             get
             {
-                if (this.typeLoaders == null)
+                if (this._typeLoaders == null)
                 {
-                    this.typeLoaders = new List<IModuleTypeLoader>
+                    this._typeLoaders = new List<IModuleTypeLoader>
                                           {
                                               new FileModuleTypeLoader()
                                           };
                 }
 
-                return this.typeLoaders;
+                return this._typeLoaders;
             }
 
             set
             {
-                this.typeLoaders = value;
+                this._typeLoaders = value;
             }
         }
 

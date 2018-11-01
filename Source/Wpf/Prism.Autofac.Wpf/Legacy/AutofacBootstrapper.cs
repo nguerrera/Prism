@@ -68,7 +68,7 @@ namespace Prism.Autofac
                 throw new InvalidOperationException(Resources.NullAutofacContainerBuilderException);
             }
 
-            _containerExtension = CreateContainerExtension();
+            ContainerExtension = CreateContainerExtension();
 
             Logger.Log(Resources.ConfiguringAutofacContainerBuilder, Category.Debug, Priority.Low);
             // Make sure any not specifically registered concrete type can resolve.
@@ -172,7 +172,7 @@ namespace Prism.Autofac
         /// </summary>
         protected virtual void ConfigureContainerBuilder(ContainerBuilder builder)
         {
-            builder.RegisterInstance(_containerExtension).As<IContainerExtension>();
+            builder.RegisterInstance(ContainerExtension).As<IContainerExtension>();
             builder.RegisterInstance(Logger).As<ILoggerFacade>();
             builder.RegisterInstance(ModuleCatalog);
 

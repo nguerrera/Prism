@@ -14,10 +14,10 @@ namespace Prism.Modularity
     /// </summary>
     public partial class ModuleManager : IModuleManager, IDisposable
     {
-        private readonly IModuleInitializer moduleInitializer;
-        private readonly ILoggerFacade loggerFacade;
-        private IEnumerable<IModuleTypeLoader> typeLoaders;
-        private HashSet<IModuleTypeLoader> subscribedToModuleTypeLoaders = new HashSet<IModuleTypeLoader>();
+        private readonly IModuleInitializer _moduleInitializer;
+        private readonly ILoggerFacade _loggerFacade;
+        private IEnumerable<IModuleTypeLoader> _typeLoaders;
+        private HashSet<IModuleTypeLoader> _subscribedToModuleTypeLoaders = new HashSet<IModuleTypeLoader>();
 
         /// <summary>
         /// Initializes an instance of the <see cref="ModuleManager"/> class.
@@ -27,9 +27,9 @@ namespace Prism.Modularity
         /// <param name="loggerFacade">Logger used during the load and initialization of modules.</param>
         public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog, ILoggerFacade loggerFacade)
         {
-            this.moduleInitializer = moduleInitializer ?? throw new ArgumentNullException(nameof(moduleInitializer));
+            this._moduleInitializer = moduleInitializer ?? throw new ArgumentNullException(nameof(moduleInitializer));
             this.ModuleCatalog = moduleCatalog ?? throw new ArgumentNullException(nameof(moduleCatalog));
-            this.loggerFacade = loggerFacade ?? throw new ArgumentNullException(nameof(loggerFacade));
+            this._loggerFacade = loggerFacade ?? throw new ArgumentNullException(nameof(loggerFacade));
         }
 
         /// <summary>
@@ -183,11 +183,11 @@ namespace Prism.Modularity
 
             // Delegate += works differently betweem SL and WPF.
             // We only want to subscribe to each instance once.
-            if (!this.subscribedToModuleTypeLoaders.Contains(moduleTypeLoader))
+            if (!this._subscribedToModuleTypeLoaders.Contains(moduleTypeLoader))
             {
                 moduleTypeLoader.ModuleDownloadProgressChanged += this.IModuleTypeLoader_ModuleDownloadProgressChanged;
                 moduleTypeLoader.LoadModuleCompleted += this.IModuleTypeLoader_LoadModuleCompleted;
-                this.subscribedToModuleTypeLoaders.Add(moduleTypeLoader);
+                this._subscribedToModuleTypeLoaders.Add(moduleTypeLoader);
             }
 
             moduleTypeLoader.LoadModuleType(moduleInfo);
@@ -244,7 +244,7 @@ namespace Prism.Modularity
                 moduleTypeLoadingException = new ModuleTypeLoadingException(moduleInfo.ModuleName, exception.Message, exception);
             }
 
-            this.loggerFacade.Log(moduleTypeLoadingException.Message, Category.Exception, Priority.High);
+            this._loggerFacade.Log(moduleTypeLoadingException.Message, Category.Exception, Priority.High);
 
             throw moduleTypeLoadingException;
         }
@@ -280,7 +280,7 @@ namespace Prism.Modularity
         {
             if (moduleInfo.State == ModuleState.Initializing)
             {
-                this.moduleInitializer.Initialize(moduleInfo);
+                this._moduleInitializer.Initialize(moduleInfo);
                 moduleInfo.State = ModuleState.Initialized;
                 this.RaiseLoadModuleCompleted(moduleInfo, null);
             }
