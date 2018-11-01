@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras;Microsoft.NET.Sdk.Wpf">
 
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -20,6 +20,11 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+
+    <!-- Enable MSBuild.Sdks.Extras globbing of WPF items for all target frameworks 
+         By default, MSBuild.Sdks.Extras won't glob page items unless targeting desktop. -->
+    <ExtrasEnableDefaultWpfItems>true</ExtrasEnableDefaultWpfItems>
+    <ExtrasEnableDefaultXamlItems>true</ExtrasEnableDefaultXamlItems>
   </PropertyGroup>
 
   <ItemGroup>

@@ -43,6 +43,11 @@
     <ProjectReference Include="..\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <Compile Remove="**\*.Desktop.cs" />
+    <None Include="**\*.Desktop.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Mocks\Modules\*.cs" />
     <EmbeddedResource Include="Modularity\ModuleCatalogXaml\SimpleModuleCatalog.xaml">
